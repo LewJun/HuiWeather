@@ -1,10 +1,13 @@
 package com.example.lewjun.huiweather
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
+import com.example.lewjun.huiweather.ForecastListAdapter.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 
@@ -27,7 +30,16 @@ class MainActivity : AppCompatActivity() {
 //        val forecastList = findViewById<View>(R.id.forecast_list) as RecyclerView
         val forecastList: RecyclerView = find(R.id.forecast_list)
         forecastList.layoutManager = LinearLayoutManager(this)
-        forecastList.adapter = ForecastListAdapter(items)
+        forecastList.adapter = ForecastListAdapter(items, object : OnItemClickListener {
+            override fun onClick(view: View, pos: Int) {
+                toast(items[pos])
+            }
+        })
+    }
+
+    // 为Context扩展函数，可以在本Activity中调用
+    fun Context.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, duration).show()
     }
 
 }
